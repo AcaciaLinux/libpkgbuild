@@ -1,5 +1,7 @@
-use std::{str::FromStr, fmt::Display};
+pub mod parser;
+
 use serde::{de::*, *};
+use std::{fmt::Display, str::FromStr};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct PackageBuild {
@@ -26,16 +28,14 @@ pub struct PackageBuild {
     pub build: Option<Vec<String>>,
     pub check: Option<Vec<String>>,
     pub package: Option<Vec<String>>,
-
 }
 
 impl PackageBuild {
-
     pub fn new(name: &str, version: &str, real_version: u32) -> PackageBuild {
         PackageBuild {
             name: name.to_owned(),
             version: version.to_owned(),
-            real_version: real_version,
+            real_version,
 
             maintainer: None,
             maintainer_email: None,
@@ -54,10 +54,9 @@ impl PackageBuild {
             prepare: None,
             build: None,
             check: None,
-            package: None
+            package: None,
         }
     }
-
 }
 
 /// Deserializes a integer from a string
