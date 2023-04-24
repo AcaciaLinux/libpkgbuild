@@ -1,0 +1,22 @@
+
+{
+    "name": "leaf",
+    "version": "0.2.2",
+    "real_version": "0",
+
+    "maintainer": "A AcacialLinux maintainer",
+    "maintainer_email": "maintainer@acacialinux.org",
+    "description": "The leaf package manager",
+    "provides": ["leaf"],
+    "source": "https://github.com/AcaciaLinux/$PKG_NAME/archive/refs/tags/$PKG_VERSION.zip",
+    "extra_sources": [],
+    "extra_dependencies": ["vim"],
+    "optional_dependencies": ["sqlite"],
+    "build_dependencies": ["cmake", "ninja"],
+    "strip": true,
+
+    "prepare": ["cd $PKG_NAME-$PKG_VERSION", "echo \"prepare!\""],
+    "build": ["cd $PKG_NAME-$PKG_VERSION", "echo \"build!\""],
+    "check": ["cd $PKG_NAME-$PKG_VERSION", "echo \"check!\""],
+    "package": ["cd $PKG_NAME-$PKG_VERSION", "echo \"package!\""]
+}
