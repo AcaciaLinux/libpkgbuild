@@ -4,7 +4,7 @@
     "version": "0.2.2",
     "real_version": "0",
 
-    "maintainer": "A AcacialLinux maintainer",
+    "maintainer": "An AcacialLinux maintainer",
     "maintainer_email": "maintainer@acacialinux.org",
     "description": "The leaf package manager",
     "provides": ["leaf"],

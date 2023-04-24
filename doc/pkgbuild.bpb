@@ -1,0 +1,37 @@
+name=leaf
+version=0.2.2
+real_version=0
+
+maintainer=An AcacialLinux maintainer
+maintainer_email=maintainer@acacialinux.org
+description=The leaf package manager
+provides=[leaf]
+source=https://github.com/AcaciaLinux/$PKG_NAME/archive/refs/tags/$PKG_VERSION.zip
+extra_sources=[DFFE1C2A-B461-40D5-986F-EAC7A2708D65][20F7F0F2-E345-4814-B6BA-C4C5DDF41341]
+extra_dependencies=[vim]
+optional_dependencies=[sqlite]
+build_dependencies=[cmake][ninja]
+cross_dependencies=[cmake][ninja][gcc]
+preinstall=45F09787-E232-4A2D-950A-3D421D0D77AC
+postinstall=DC27C63C-C1BF-43D1-B673-EA309EC9C23E
+strip=1
+
+prepare={
+    cd $PKG_NAME-$PKG_VERSION
+    echo "prepare!"
+}
+
+build={
+    cd $PKG_NAME-$PKG_VERSION
+    echo "build!"
+}
+
+check={
+    cd $PKG_NAME-$PKG_VERSION
+    echo "check!"
+}
+
+package={
+    cd $PKG_NAME-$PKG_VERSION
+    echo "package!"
+}
