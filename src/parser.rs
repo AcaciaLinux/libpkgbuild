@@ -77,7 +77,7 @@ pub fn parse<R: Read>(input: &mut R) -> Result<PackageBuild, std::io::Error> {
         Err(e) => {
             return Err(Error::new(
                 ErrorKind::InvalidData,
-                format!("Parsing real_version failed: {}", e),
+                format!("Parsing real_version failed: {e}"),
             ))
         }
     };

@@ -22,11 +22,18 @@ pub fn mount_overlay(
 
     let lower_s = lower.to_string_lossy();
     let work_s = work.to_string_lossy();
-    let upper_s = work.to_string_lossy();
+    let upper_s = upper.to_string_lossy();
+
+    let data = format!("lowerdir={lower_s},workdir={work_s},upperdir={upper_s}");
+    info!(
+        "Mounting overlay ({}) -> {}",
+        &data,
+        &merged.to_string_lossy()
+    );
 
     let mount_result = Mount::builder()
         .fstype("overlay")
-        .data(format!("lowerdir={lower_s},workdir={work_s},upperdir={upper_s}").as_str())
+        .data(&data)
         .mount("overlay", merged);
 
     match mount_result {

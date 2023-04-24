@@ -128,7 +128,7 @@ impl GetExt for HashMap<String, ParseResult> {
                 ParseResult::String(v) => Ok(Some(v.clone())),
                 ParseResult::Vec(_) => Err(Error::new(
                     ErrorKind::InvalidData,
-                    format!("Expected String, got Vec for key '{}'", key),
+                    format!("Expected String, got Vec for key '{key}'"),
                 )),
             },
             None => Ok(None),
@@ -140,7 +140,7 @@ impl GetExt for HashMap<String, ParseResult> {
             Some(v) => Ok(v),
             None => Err(Error::new(
                 ErrorKind::NotFound,
-                format!("Value with key '{}'", key),
+                format!("Value with key '{key}'"),
             )),
         }
     }
@@ -150,7 +150,7 @@ impl GetExt for HashMap<String, ParseResult> {
             Some(value) => match value {
                 ParseResult::String(_) => Err(Error::new(
                     ErrorKind::InvalidData,
-                    format!("Expected Vec, got String for key '{}'", key),
+                    format!("Expected Vec, got String for key '{key}'"),
                 )),
                 ParseResult::Vec(v) => Ok(Some(v.clone())),
             },
@@ -163,7 +163,7 @@ impl GetExt for HashMap<String, ParseResult> {
             Some(v) => Ok(v),
             None => Err(Error::new(
                 ErrorKind::NotFound,
-                format!("Value with key '{}'", key),
+                format!("Value with key '{key}'"),
             )),
         }
     }
