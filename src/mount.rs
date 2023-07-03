@@ -41,3 +41,79 @@ pub fn mount_overlay(
         Err(e) => Err(e),
     }
 }
+
+/// Mounts the following Linux virtual kernel filesystems from `source` to `destination`:
+/// `/dev`, `/dev/pts`, `/proc`, `/sys`, `/tmp`
+/// # Arguments
+/// * `source` - The source to take the mounts from (usually `/`)
+/// * `destination` - The destination to mount the vkfs into
+pub fn mount_vkfs(source: &Path, destination: &Path) -> Result<Vec<UnmountDrop<Mount>>, Error> {
+    // Create quick handlers
+    let src_dev = source.join("dev");
+
+    let dest_dev = destination.join("dev");
+    let dest_dev_pts = dest_dev.join("pts");
+    let dest_proc = destination.join("proc");
+    let dest_sys = destination.join("sys");
+    let dest_tmp = destination.join("tmp");
+
+    // Ensure the target directories exist
+    std::fs::create_dir_all(&destination)?;
+
+    std::fs::create_dir_all(&dest_dev)?;
+    std::fs::create_dir_all(&dest_dev_pts)?;
+    std::fs::create_dir_all(&dest_proc)?;
+    std::fs::create_dir_all(&dest_sys)?;
+    std::fs::create_dir_all(&dest_tmp)?;
+
+    let flags = UnmountFlags::FORCE;
+
+    // /dev
+    info!(
+        "[vkfs] Mounting dev {} -> {}",
+        &src_dev.to_string_lossy(),
+        &dest_dev.to_string_lossy()
+    );
+    let mount_dev = Mount::builder()
+        .flags(MountFlags::BIND)
+        .mount_autodrop(&src_dev, &dest_dev, flags)?;
+
+    // /dev/pts
+    info!(
+        "[vkfs] Mounting devpts to {}",
+        &dest_dev_pts.to_string_lossy()
+    );
+    let mount_dev_pts =
+        Mount::builder()
+            .fstype("devpts")
+            .mount_autodrop("devpts", &dest_dev_pts, flags)?;
+
+    // /proc
+    info!("[vkfs] Mounting proc to {}", &dest_proc.to_string_lossy());
+    let mount_proc = Mount::builder()
+        .fstype("proc")
+        .mount_autodrop("proc", &dest_proc, flags)?;
+
+    // /sys
+    info!("[vkfs] Mounting sysfs to {}", &dest_sys.to_string_lossy());
+    let mount_sys = Mount::builder()
+        .fstype("sysfs")
+        .mount_autodrop("sysfs", &dest_sys, flags)?;
+
+    // /tmp
+    info!("[vkfs] Mounting tmpfs to {}", &dest_tmp.to_string_lossy());
+    let mount_tmp = Mount::builder()
+        .fstype("tmpfs")
+        .mount_autodrop("tmpfs", &dest_tmp, flags)?;
+
+    // Push the UnmountDrops to a vector
+    let mut res: Vec<UnmountDrop<Mount>> = Vec::new();
+
+    res.push(mount_proc);
+    res.push(mount_dev);
+    res.push(mount_dev_pts);
+    res.push(mount_sys);
+    res.push(mount_tmp);
+
+    Ok(res)
+}
