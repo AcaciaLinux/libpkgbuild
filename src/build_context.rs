@@ -1,6 +1,8 @@
 use crate::util::*;
 use std::path::PathBuf;
 
+mod sources;
+
 use leaf::error::LError;
 use leaf::error::LErrorClass;
 use leaf::Leaf;
@@ -23,6 +25,7 @@ pub struct BuildContext<'a> {
 pub enum BCErrorKind {
     IO(std::io::ErrorKind),
     Leaf(LErrorClass),
+    ZIP(zip::result::ZipError),
 }
 
 /// A build context error
@@ -125,6 +128,15 @@ impl From<LError> for BCError {
         Self {
             kind: BCErrorKind::Leaf(value.class),
             message: value.message.unwrap_or("Unknown".to_owned()),
+        }
+    }
+}
+
+impl From<zip::result::ZipError> for BCError {
+    fn from(value: zip::result::ZipError) -> Self {
+        Self {
+            message: format!("ZIP error: {}", value),
+            kind: BCErrorKind::ZIP(value),
         }
     }
 }
