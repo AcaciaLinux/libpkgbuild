@@ -121,3 +121,24 @@ pub fn mount_vkfs(
 
     Ok(res)
 }
+
+/// Create a bind mount from `src` to `dst`
+/// # Arguments
+/// * `src` - The source path
+/// * `dst` - The destination path
+pub fn mount_bind(src: &Path, dst: &Path) -> Result<UnmountDrop<Mount>, std::io::Error> {
+    info!(
+        "Mounting bind {} to {}",
+        src.to_string_lossy(),
+        dst.to_string_lossy()
+    );
+
+    Mount::builder()
+        .flags(MountFlags::BIND)
+        .mount_autodrop(src, dst, UnmountFlags::FORCE)
+        .err_prepend(&format!(
+            "When mounting bind {} to {}",
+            src.to_string_lossy(),
+            dst.to_string_lossy()
+        ))
+}
