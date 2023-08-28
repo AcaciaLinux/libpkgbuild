@@ -1,6 +1,8 @@
 #[macro_use]
 extern crate log;
 
+mod config;
+pub use config::*;
 mod error;
 pub use error::*;
 pub mod mount;
