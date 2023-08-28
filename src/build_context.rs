@@ -1,6 +1,7 @@
 use crate::util::*;
 use std::path::PathBuf;
 
+mod build;
 mod sources;
 
 use leaf::error::LError;
