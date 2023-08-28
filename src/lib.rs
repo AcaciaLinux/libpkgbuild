@@ -5,6 +5,7 @@ mod error;
 pub use error::*;
 pub mod mount;
 pub mod parser;
+pub mod util;
 
 use serde::{de::*, *};
 use std::{fmt::Display, str::FromStr};
